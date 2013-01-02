@@ -28,3 +28,4 @@ profile
 *.moved-aside
 DerivedData
 .idea/
+.dat*
