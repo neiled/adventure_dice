@@ -52,7 +52,30 @@ class DiceBagController < UIViewController
   end
 
   def button_tapped(sender)
-    @selected_dice << Dice.new(sender.tag)
+    new_dice = Dice.new(sender.tag)
+    @selected_dice << new_dice
+    update_bag(new_dice)
+  end
+  
+  def update_bag(new_dice)
+    bag_left = 90
+    bag_height = 10
+    button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
+    button.setTitle(new_dice.sides.to_s, forState:UIControlStateNormal)
+    button.sizeToFit
+    button.frame = [
+      [bag_left, button.frame.size.height * (@selected_dice.count - 1 ) + bag_height],
+      [button.frame.size.width, button.frame.size.height]
+    ]
+    button.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin    
+    button.addTarget(self,
+      action:"remove_button:",
+      forControlEvents:UIControlEventTouchUpInside)
+    self.view.addSubview(button)    
+  end
+  
+  def remove_button(sender)
+  
   end
 
   def roll_dice
