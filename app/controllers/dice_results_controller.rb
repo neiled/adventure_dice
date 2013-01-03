@@ -5,7 +5,7 @@ class DiceResultsController < UIViewController
 
   def initWithDice(selected_dice)
     self.initWithNibName(nil, bundle:nil)
-    generate_results(selected_dice)
+    @results = selected_dice
 
     self
   end
@@ -22,10 +22,7 @@ class DiceResultsController < UIViewController
     }
   end
 
-  def generate_results(dice)
-    @results = dice.map { |d| Dice.new(d)}
-  end
-  
+ 
   def add_label(dice, index)
     label = UILabel.alloc.initWithFrame(CGRectZero)
     label.text = "d" + dice.sides.to_s + " = " + dice.result.to_s
