@@ -2,7 +2,8 @@ class DiceBagController < UIViewController
   def initWithNibName(name, bundle: bundle)
     super
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Dice Bag", image: nil, tag: 1)
-    @selected_dice = []
+    @selected_dice = {}
+    @selected_buttons = []
     self
   end
 
@@ -12,8 +13,7 @@ class DiceBagController < UIViewController
     get_default_list.each_with_index do |number, index|
       create_button(number, index)
     end
-    #create_button(6, 0)
-    #create_button(10,1)
+
     create_roll_button
   end
 
@@ -53,7 +53,6 @@ class DiceBagController < UIViewController
 
   def button_tapped(sender)
     new_dice = Dice.new(sender.tag)
-    @selected_dice << new_dice
     update_bag(new_dice)
   end
   
@@ -71,15 +70,27 @@ class DiceBagController < UIViewController
     button.addTarget(self,
       action:"remove_button:",
       forControlEvents:UIControlEventTouchUpInside)
+    @selected_dice[button] = new_dice
+    @selected_buttons << button
     self.view.addSubview(button)    
   end
   
   def remove_button(sender)
-  
+    @selected_dice.delete(sender)
+    @selected_buttons.delete(sender)
+    bag_left = 90
+    bag_height = 10
+    
+    @selected_buttons.each_with_index do |button, index|
+      button.frame = [
+        [bag_left, button.frame.size.height * (index - 1 ) + bag_height],
+        [button.frame.size.width, button.frame.size.height]
+      ]      
+    end
   end
 
   def roll_dice
-    controller = DiceResultsController.alloc.initWithDice(@selected_dice)
+    controller = DiceResultsController.alloc.initWithDice(@selected_dice.values)
     self.presentViewController(
       UINavigationController.alloc.initWithRootViewController(controller),
       animated:true,
