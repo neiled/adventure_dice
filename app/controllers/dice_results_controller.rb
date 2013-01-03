@@ -48,6 +48,9 @@ class DiceResultsController < UIViewController
   
   def reroll_dice
     p "Re-roll the dice here"
+    @results.each{|d|
+      d.roll
+    }    
   end  
 
  
