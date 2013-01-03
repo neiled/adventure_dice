@@ -38,8 +38,7 @@ class DiceBagController < UIViewController
       [30 + index*(button_width + 10), button.frame.size.height + 30],
       [button_width, button.frame.size.height]
     ]
-    button.autoresizingMask =
-      UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin
+    button.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin
     button.addTarget(self,
       action:"button_tapped:",
       forControlEvents:UIControlEventTouchUpInside)
