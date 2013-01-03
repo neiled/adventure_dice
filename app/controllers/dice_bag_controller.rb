@@ -52,8 +52,7 @@ class DiceBagController < UIViewController
   end
 
   def button_tapped(sender)
-    @selected_dice << sender.tag
-    p @selected_dice
+    @selected_dice << Dice.new(sender.tag)
   end
 
   def roll_dice
