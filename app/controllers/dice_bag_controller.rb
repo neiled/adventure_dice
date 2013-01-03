@@ -21,9 +21,8 @@ class DiceBagController < UIViewController
     button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
     button.setTitle("Roll", forState:UIControlStateNormal)
     button.sizeToFit
-    button.frame = [[70,270], [button.frame.size.width, button.frame.size.height]]
-    button.autoresizingMask =
-      UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin
+    button.frame = [[110,380], [button.frame.size.width, button.frame.size.height]]
+    button.autoresizingMask =UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin
     button.addTarget(self,
       action:"roll_dice",
       forControlEvents:UIControlEventTouchUpInside)
