@@ -11,7 +11,7 @@ class DiceResultsController < UIViewController
   end
 
   layout :result do
-    subview(UIButton, :result)
+    subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :result)
   end
 
   def viewDidLoad
