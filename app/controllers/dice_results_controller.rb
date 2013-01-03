@@ -21,6 +21,34 @@ class DiceResultsController < UIViewController
       add_label d, index
     }
   end
+  
+  attr_accessor :shaking
+  def shaking?
+    @shaking
+  end
+
+  def viewWillAppear(animated)
+    super
+    becomeFirstResponder
+  end
+
+  def viewDidDisappear(animated)
+    super
+    resignFirstResponder
+  end
+
+  def canBecomeFirstResponder
+    true
+  end
+
+  def motionEnded(motion, withEvent:event)
+    @shaking = motion == UIEventSubtypeMotionShake
+    reroll_dice
+  end
+  
+  def reroll_dice
+    p "Re-roll the dice here"
+  end  
 
  
   def add_label(dice, index)
