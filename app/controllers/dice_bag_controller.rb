@@ -30,15 +30,16 @@ class DiceBagController < UIViewController
   end
 
   def create_roll_button
-    button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
-    button.setTitle("Roll", forState:UIControlStateNormal)
-    button.sizeToFit
-    button.frame = [[110,380], [button.frame.size.width, button.frame.size.height]]
-    button.autoresizingMask =UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin
-    button.addTarget(self,
+    @roll_button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
+    @roll_button.setTitle("Roll", forState:UIControlStateNormal)
+    @roll_button.sizeToFit
+    @roll_button.frame = [[110,380], [@roll_button.frame.size.width, @roll_button.frame.size.height]]
+    @roll_button.autoresizingMask =UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin
+    @roll_button.addTarget(self,
       action:"roll_dice",
       forControlEvents:UIControlEventTouchUpInside)
-    self.view.addSubview(button)
+    @roll_button.setEnabled(false)
+    self.view.addSubview(@roll_button)
   end
   
   def create_button(sides, index)
@@ -84,7 +85,9 @@ class DiceBagController < UIViewController
     @selected_buttons << button
 
     @bag_view.contentSize.height = button.frame.size.height * (@selected_dice.count ) + (BAG_HEIGHT * 2)
-    @bag_view.addSubview(button)    
+    @bag_view.addSubview(button)  
+    
+    @roll_button.setEnabled(true)
   end
   
   def remove_button(sender)
@@ -96,7 +99,9 @@ class DiceBagController < UIViewController
       button.frame = [
         [BAG_LEFT, button.frame.size.height * index + BAG_HEIGHT],
         [button.frame.size.width, button.frame.size.height]
-      ]      
+      ]
+    
+    @roll_button.setEnabled(false) unless @selected_buttons.count > 0
     end
   end
 
