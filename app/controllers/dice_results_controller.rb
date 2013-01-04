@@ -58,10 +58,11 @@ class DiceResultsController < UIViewController
   def add_label(dice, index)
     label = UILabel.alloc.initWithFrame(CGRectZero)
     label.text = "d" + dice.sides.to_s + " = " + dice.result.to_s
+    label.font = UIFont.systemFontOfSize(20)
     label.sizeToFit
     label.frame =
       [[20,
-      30 + 20 * index], [label.frame.size.width, label.frame.size.height]]
+      label.frame.size.height + 50 * index], [130, label.frame.size.height]]
     label.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin
     self.view.addSubview(label)
 
