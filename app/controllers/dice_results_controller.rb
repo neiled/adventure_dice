@@ -57,7 +57,7 @@ class DiceResultsController < UIViewController
  
   def add_label(dice, index)
     label = UILabel.alloc.initWithFrame(CGRectZero)
-    label.text = "d" + dice.sides.to_s + " = " + dice.result.to_s
+    label.text = dice.to_s + " = " + dice.result.to_s
     label.font = UIFont.systemFontOfSize(20)
     label.sizeToFit
     label.frame =
