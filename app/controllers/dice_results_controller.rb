@@ -67,7 +67,7 @@ class DiceResultsController < UIViewController
     self.view.addSubview(label)
 
     observe(dice, :result) do |old_value, new_value|
-      label.text = "d" + dice.sides.to_s + " = " + new_value.to_s
+      label.text = dice.to_s + " = " + new_value.to_s
     end
   end
 end
