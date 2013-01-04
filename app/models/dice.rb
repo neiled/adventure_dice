@@ -14,5 +14,18 @@ class Dice
   def roll
     self.result = Random.rand(sides) + 1 + modifier
   end
+  
+  def to_s
+    "d" + self.sides.to_s + modifier_string
+  end
+  
+  def modifier_string
+    if modifier > 0 
+      " + " + modifier
+    elsif modifier < 0
+      " - " + abs(modifier)
+    else
+      ""
+  end
 
 end
