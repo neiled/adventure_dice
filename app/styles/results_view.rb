@@ -1,5 +1,5 @@
 Teacup::Stylesheet.new :dice_results do
   style :result,
-    frame: [[20, 300], [50, 20]],
+     top: 200, left: 60, width: 200, height: 100,
     title: "Roll Again"
 end

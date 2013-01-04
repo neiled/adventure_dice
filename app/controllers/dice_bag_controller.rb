@@ -1,4 +1,9 @@
 class DiceBagController < UIViewController
+
+  BAG_LEFT = 250
+  BAG_HEIGHT = 30
+  BUTTON_WIDTH=60
+
   def initWithNibName(name, bundle: bundle)
     super
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Dice Bag", image: nil, tag: 1)
@@ -30,7 +35,6 @@ class DiceBagController < UIViewController
   end
   
   def create_button(sides, index)
-    button_width = 60
     button_gap = 10
     max_per_row = 3
     initial_gap = 30
@@ -41,8 +45,8 @@ class DiceBagController < UIViewController
     button.sizeToFit
     button.tag = sides
     button.frame = [
-      [initial_gap + (index%max_per_row)*(button_width + button_gap), (index/max_per_row) * (button.frame.size.height + button_gap) + initial_gap],
-      [button_width, button.frame.size.height]
+      [initial_gap + (index%max_per_row)*(BUTTON_WIDTH + button_gap), (index/max_per_row) * (button.frame.size.height + button_gap) + initial_gap],
+      [BUTTON_WIDTH, button.frame.size.height]
     ]
     button.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin
     button.addTarget(self,
@@ -57,14 +61,12 @@ class DiceBagController < UIViewController
   end
   
   def update_bag(new_dice)
-    bag_left = 90
-    bag_height = 10
     button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
-    button.setTitle(new_dice.sides.to_s, forState:UIControlStateNormal)
+    button.setTitle("d"+new_dice.sides.to_s, forState:UIControlStateNormal)
     button.sizeToFit
     button.frame = [
-      [bag_left, button.frame.size.height * (@selected_dice.count - 1 ) + bag_height],
-      [button.frame.size.width, button.frame.size.height]
+      [BAG_LEFT, button.frame.size.height * (@selected_dice.count ) + BAG_HEIGHT],
+      [BUTTON_WIDTH, button.frame.size.height]
     ]
     button.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin    
     button.addTarget(self,
@@ -76,14 +78,13 @@ class DiceBagController < UIViewController
   end
   
   def remove_button(sender)
+    sender.removeFromSuperview
     @selected_dice.delete(sender)
     @selected_buttons.delete(sender)
-    bag_left = 90
-    bag_height = 10
     
     @selected_buttons.each_with_index do |button, index|
       button.frame = [
-        [bag_left, button.frame.size.height * (index - 1 ) + bag_height],
+        [BAG_LEFT, button.frame.size.height * index + BAG_HEIGHT],
         [button.frame.size.width, button.frame.size.height]
       ]      
     end
