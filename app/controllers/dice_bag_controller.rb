@@ -21,6 +21,13 @@ class DiceBagController < UIViewController
 
     create_roll_button
   end
+  
+  def add_bag_view
+    @bag_view = UIScrollView.alloc.init
+    @bag_view.frame = [[BAG_LEFT, 0], [self.view.frame.size.width - BAG_LEFT, self.view.frame.size.height]]
+    @bag_view.contentSize.width = BUTTON_WIDTH    
+    self.view.addSubView(@bag_view)
+  end
 
   def create_roll_button
     button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
@@ -52,6 +59,7 @@ class DiceBagController < UIViewController
     button.addTarget(self,
       action:"button_tapped:",
       forControlEvents:UIControlEventTouchUpInside)
+
     self.view.addSubview(button)
   end
 
@@ -74,7 +82,9 @@ class DiceBagController < UIViewController
       forControlEvents:UIControlEventTouchUpInside)
     @selected_dice[button] = new_dice
     @selected_buttons << button
-    self.view.addSubview(button)    
+
+    @bag_view.contentSize.height = button.frame.size.height * (@selected_dice.count ) + (BAG_HEIGHT * 2)
+    @bag_view.addSubview(button)    
   end
   
   def remove_button(sender)
