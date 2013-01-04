@@ -91,11 +91,17 @@ class DiceBagController < UIViewController
   end
 
   def roll_dice
-    controller = DiceResultsController.alloc.initWithDice(@selected_dice.values)
+    @results_controller = DiceResultsController.alloc.initWithDice(@selected_dice.values)
+    bar_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemDone, target: self, action:"close")
+    @results_controller.navigationItem.rightBarButtonItem = bar_button
     self.presentViewController(
-      UINavigationController.alloc.initWithRootViewController(controller),
+      UINavigationController.alloc.initWithRootViewController(@results_controller),
       animated:true,
       completion: lambda {})
+  end
+
+  def close
+    @results_controller.dismissModalViewControllerAnimated(true)
   end
   
   def get_default_list

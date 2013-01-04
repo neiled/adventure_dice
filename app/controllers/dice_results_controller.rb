@@ -15,11 +15,13 @@ class DiceResultsController < UIViewController
       add_label d, index
     }
 
-    subview(
+    reroll_button = subview(
       UIButton.buttonWithType(UIButtonTypeRoundedRect),
-      title: "Click me!",
-      top: 200, left: 60
+      title: "Re-roll",
+      top: 300, left: 90, width: 150, height: 50
     )
+    reroll_button.addTarget(self,
+                            action:"reroll_dice", forControlEvents:UIControlEventTouchUpInside)
 
     true
   end
