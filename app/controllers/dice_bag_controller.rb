@@ -71,7 +71,7 @@ class DiceBagController < UIViewController
   
   def update_bag(new_dice)
     button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
-    button.setTitle("d"+new_dice.sides.to_s, forState:UIControlStateNormal)
+    button.setTitle(new_dice.to_s, forState:UIControlStateNormal)
     button.sizeToFit
     button.frame = [
       [BAG_LEFT, button.frame.size.height * (@selected_dice.count ) + BAG_HEIGHT],
