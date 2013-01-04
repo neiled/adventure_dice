@@ -22,7 +22,7 @@ class DiceResultsController < UIViewController
     )
     reroll_button.addTarget(self,
                             action:"reroll_dice", forControlEvents:UIControlEventTouchUpInside)
-
+    reroll_dice
     true
   end
   
@@ -51,10 +51,7 @@ class DiceResultsController < UIViewController
   end
   
   def reroll_dice
-    p "Re-roll the dice here"
-    @results.each{|d|
-      d.roll
-    }    
+    @results.each{|d| d.roll }    
   end  
 
  
