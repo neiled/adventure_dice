@@ -21,11 +21,12 @@ class Dice
   
   def modifier_string
     if modifier > 0 
-      "+" + modifier
+      "+" + modifier.to_s
     elsif modifier < 0
-      "-" + abs(modifier)
+      "-" + modifier.abs.to_s
     else
       ""
+    end
   end
 
 end

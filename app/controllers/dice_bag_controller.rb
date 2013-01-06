@@ -1,52 +1,77 @@
 class DiceBagController < UIViewController
+    include BW::KVO
 
   BAG_LEFT = 250
   BAG_HEIGHT = 30
   BUTTON_WIDTH=60
+  BUTTON_HEIGHT = 44
 
   def initWithNibName(name, bundle: bundle)
     super
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Dice Bag", image: nil, tag: 1)
     @selected_dice = {}
     @selected_buttons = []
+    @buttons = []
     self
   end
 
   def viewDidLoad
     self.view.backgroundColor = UIColor.whiteColor
 
+    add_modifier_bar
+
     get_default_list.each_with_index do |number, index|
       create_button(number, index)
     end
 
     create_roll_button
+    add_bag_view
+  end
+
+  def add_modifier_bar
+    @slider = UISlider.alloc.init
+    self.view.addSubview(@slider)
+    @slider.frame = [[20,350],[200, @slider.frame.size.height]]
+    @slider.minimumValue = -10
+    @slider.maximumValue = 10
+    @slider.value = 0
+    @slider.addTarget(self, action:"update_button_labels:",
+      forControlEvents:UIControlEventValueChanged)
   end
   
   def add_bag_view
     @bag_view = UIScrollView.alloc.init
-    @bag_view.frame = [[BAG_LEFT, 0], [self.view.frame.size.width - BAG_LEFT, self.view.frame.size.height]]
-    @bag_view.contentSize.width = BUTTON_WIDTH    
-    self.view.addSubView(@bag_view)
+    @bag_view.frame = [[BAG_LEFT, 0], [self.view.frame.size.width - BAG_LEFT, self.view.frame.size.height-130]]
+    @bag_view.contentSize.width = BUTTON_WIDTH
+    @bag_view.canCancelContentTouches = true
+    self.view.addSubview(@bag_view)
   end
 
   def create_roll_button
     @roll_button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
     @roll_button.setTitle("Roll", forState:UIControlStateNormal)
     @roll_button.sizeToFit
-    @roll_button.frame = [[110,380], [@roll_button.frame.size.width, @roll_button.frame.size.height]]
+    @roll_button.frame = [[250,400], [BUTTON_WIDTH, @roll_button.frame.size.height]]
     @roll_button.autoresizingMask =UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin
-    @roll_button.addTarget(self,
-      action:"roll_dice",
+    @roll_button.addTarget(self, action:"roll_dice",
       forControlEvents:UIControlEventTouchUpInside)
     @roll_button.setEnabled(false)
     self.view.addSubview(@roll_button)
   end
+
+  def update_button_labels(slider)
+    @buttons.each { |button|
+      value_rounded = slider.value.round
+      modifier_string = value_rounded < 0 ? value_rounded.to_s : "+" + value_rounded.to_s
+      label = "d" + button.tag.to_s + (value_rounded == 0 ? "" : modifier_string)
+      button.setTitle(label, forState:UIControlStateNormal)
+    }
+  end
   
   def create_button(sides, index)
-    button_gap = 10
+    button_gap = 15
     max_per_row = 3
-    initial_gap = 30
-    
+    initial_gap = 20
     button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
     label = "d"+sides.to_s
     button.setTitle(label, forState:UIControlStateNormal)
@@ -54,18 +79,18 @@ class DiceBagController < UIViewController
     button.tag = sides
     button.frame = [
       [initial_gap + (index%max_per_row)*(BUTTON_WIDTH + button_gap), (index/max_per_row) * (button.frame.size.height + button_gap) + initial_gap],
-      [BUTTON_WIDTH, button.frame.size.height]
+      [BUTTON_WIDTH, BUTTON_HEIGHT]
     ]
     button.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin
-    button.addTarget(self,
-      action:"button_tapped:",
+    button.addTarget(self, action:"button_tapped:",
       forControlEvents:UIControlEventTouchUpInside)
 
     self.view.addSubview(button)
+    @buttons << button
   end
 
   def button_tapped(sender)
-    new_dice = Dice.new(sender.tag)
+    new_dice = Dice.new(sender.tag, @slider.value.round)
     update_bag(new_dice)
   end
   
@@ -74,8 +99,8 @@ class DiceBagController < UIViewController
     button.setTitle(new_dice.to_s, forState:UIControlStateNormal)
     button.sizeToFit
     button.frame = [
-      [BAG_LEFT, button.frame.size.height * (@selected_dice.count ) + BAG_HEIGHT],
-      [BUTTON_WIDTH, button.frame.size.height]
+      [0, (@selected_dice.count )  * BUTTON_HEIGHT + 20],
+      [BUTTON_WIDTH, BUTTON_HEIGHT]
     ]
     button.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin    
     button.addTarget(self,
@@ -84,9 +109,8 @@ class DiceBagController < UIViewController
     @selected_dice[button] = new_dice
     @selected_buttons << button
 
-    @bag_view.contentSize.height = button.frame.size.height * (@selected_dice.count ) + (BAG_HEIGHT * 2)
     @bag_view.addSubview(button)  
-    
+    set_scroll_content_size
     @roll_button.setEnabled(true)
   end
   
@@ -97,12 +121,13 @@ class DiceBagController < UIViewController
     
     @selected_buttons.each_with_index do |button, index|
       button.frame = [
-        [BAG_LEFT, button.frame.size.height * index + BAG_HEIGHT],
+        [0, BUTTON_HEIGHT * index + 20],
         [button.frame.size.width, button.frame.size.height]
       ]
-    
-    @roll_button.setEnabled(false) unless @selected_buttons.count > 0
     end
+
+    set_scroll_content_size
+    @roll_button.setEnabled(false) unless @selected_buttons.count > 0
   end
 
   def roll_dice
@@ -118,8 +143,12 @@ class DiceBagController < UIViewController
   def close
     @results_controller.dismissModalViewControllerAnimated(true)
   end
+
+  def set_scroll_content_size
+    @bag_view.contentSize = [BUTTON_WIDTH, BUTTON_HEIGHT * (@selected_buttons.count ) + (BAG_HEIGHT * 2) ]
+  end
   
   def get_default_list
-    [2,3,4,5,6,7,8,10,12,14,16,18,20,24,30,34,50,60,100]
+    [2,3,4,5,6,7,8,10,12,14,16,18,20,24,30,50,60,100]
   end
 end
