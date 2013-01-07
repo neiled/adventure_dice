@@ -11,4 +11,8 @@ class AppDelegate
     @window.rootViewController = tab_controller
     true
   end
+  
+  def favourites
+    @favourites ||= App::Persistence['favourites']
+  end
 end
