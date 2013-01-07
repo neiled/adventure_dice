@@ -137,8 +137,10 @@ class DiceBagController < UIViewController
 
   def roll_dice
     @results_controller = DiceResultsController.alloc.initWithDice(@selected_dice.values)
-    bar_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemDone, target: self, action:"close")
-    @results_controller.navigationItem.rightBarButtonItem = bar_button
+    bar_button_close = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemDone, target: self, action:"close")
+    bar_button_save = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemSave, target: self, action:"add_favorite")    
+    @results_controller.navigationItem.rightBarButtonItem = bar_button_close
+    @results_controller.navigationItem.leftBarButtonItem = bar_button_save
     self.presentViewController(
       UINavigationController.alloc.initWithRootViewController(@results_controller),
       animated:true,
@@ -147,6 +149,10 @@ class DiceBagController < UIViewController
 
   def close
     @results_controller.dismissModalViewControllerAnimated(true)
+  end
+  
+  def add_favorite
+    p "TODO: add_favorite"
   end
 
   def set_scroll_content_size
