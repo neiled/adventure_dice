@@ -3,7 +3,7 @@ class DiceBagController < UIViewController
 
   BAG_LEFT = 250
   BAG_HEIGHT = 30
-  BUTTON_WIDTH=60
+  BUTTON_WIDTH=65
   BUTTON_HEIGHT = 44
 
   def initWithNibName(name, bundle: bundle)
@@ -16,7 +16,8 @@ class DiceBagController < UIViewController
   end
 
   def viewDidLoad
-    self.view.backgroundColor = UIColor.whiteColor
+    image = UIImage.imageNamed("pool_table2")
+    self.view.backgroundColor = UIColor.colorWithPatternImage(image)
 
     add_modifier_bar
 
@@ -31,7 +32,7 @@ class DiceBagController < UIViewController
   def add_modifier_bar
     @slider = UISlider.alloc.init
     self.view.addSubview(@slider)
-    @slider.frame = [[20,350],[200, @slider.frame.size.height]]
+    @slider.frame = [[20,370],[200, @slider.frame.size.height]]
     @slider.minimumValue = -10
     @slider.maximumValue = 10
     @slider.value = 0
@@ -69,12 +70,16 @@ class DiceBagController < UIViewController
   end
   
   def create_button(sides, index)
+    button_image = UIImage.imageNamed("orangeButton", resizableImageWithCapInsets: [18,18,18,18])
     button_gap = 15
     max_per_row = 3
-    initial_gap = 20
+    initial_gap = 15
     button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
+    button.setBackgroundImage(button_image, forState: UIControlStateNormal)
+    button.backgroundColor = UIColor.clearColor
     label = "d"+sides.to_s
     button.setTitle(label, forState:UIControlStateNormal)
+    button.setTitleColor(UIColor.whiteColor, forState:UIControlStateNormal)
     button.sizeToFit
     button.tag = sides
     button.frame = [
