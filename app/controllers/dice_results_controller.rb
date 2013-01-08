@@ -51,7 +51,9 @@ class DiceResultsController < UIViewController
   end
   
   def reroll_dice
-    @results.each{|d| d.roll }    
+    @results.each{|d| d.roll }
+    UIView.animateWithDuration(1.0, delay:0.0, options:UIViewAnimationOptionAutoreverse,
+        animations:-> { view.backgroundColor = UIColor.yellowColor })
   end  
 
  
