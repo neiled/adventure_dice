@@ -153,7 +153,7 @@ class DiceBagController < UIViewController
   
   def add_favorite
     current_favourites = Favourite.load
-    current_favourites << Favourite.new(@selected_dice.values)
+    current_favourites << Favourite.new({:dice => @selected_dice.values})
     Favourite.save
     # App.delegate.add_favourite @selected_dice.values
   end
