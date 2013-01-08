@@ -38,7 +38,7 @@ class DiceFavouriteController < UITableViewController
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
     tableView.deselectRowAtIndexPath(indexPath, animated: true)
     favourite = @favourites[indexPath.row]
-    roll_dice(favourite.dice)
+    roll_dice(favourite.dice, false)
   end
 
 end
