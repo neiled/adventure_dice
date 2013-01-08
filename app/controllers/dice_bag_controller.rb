@@ -95,7 +95,7 @@ class DiceBagController < UIViewController
   end
 
   def button_tapped(sender)
-    new_dice = Dice.new(sender.tag, @slider.value.round)
+    new_dice = Dice.new({sides: sender.tag, modifier: @slider.value.round})
     update_bag(new_dice)
   end
   
@@ -152,7 +152,7 @@ class DiceBagController < UIViewController
   end
   
   def add_favorite
-    p "TODO: add_favorite"
+    App.delegate.add_favourite @selected_dice.values
   end
 
   def set_scroll_content_size
