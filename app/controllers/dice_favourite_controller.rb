@@ -1,4 +1,6 @@
 class DiceFavouriteController < UITableViewController
+  include EnableRollResults
+  
   def initWithNibName(name, bundle: bundle)
     super
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Favourites", image:nil, tag:2)
@@ -31,6 +33,12 @@ class DiceFavouriteController < UITableViewController
     Favourites.save(@favourites)
     #App.delegate.delete_favourite(indexPath.row)
     tableView.reloadData
+  end
+  
+  def tableView(tableView, didSelectRowAtIndexPath:indexPath)
+    tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    favourite = @favourites[indexPath.row]
+    roll_dice(favourite.dice)
   end
 
 end
