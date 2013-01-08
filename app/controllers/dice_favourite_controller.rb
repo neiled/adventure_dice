@@ -7,17 +7,18 @@ class DiceFavouriteController < UITableViewController
   end
 
   def viewWillAppear(animated)
+    @favourites = Favourite.load
     tableView.reloadData
   end
 
 
   def tableView(tableView, numberOfRowsInSection:section)
-    App.delegate.favourites.size
+    @favourites.size
   end
 
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
     UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:nil).tap do |cell|
-      cell.textLabel.text = App.delegate.favourites[indexPath.row].join(" ")
+      cell.textLabel.text = @favourites[indexPath.row].dice.join(" ")
     end
   end
 
@@ -26,7 +27,9 @@ class DiceFavouriteController < UITableViewController
   end
 
   def tableView(tableView, commitEditingStyle:editingStyle, forRowAtIndexPath:indexPath)
-    App.delegate.delete_favourite(indexPath.row)
+    @favourites.delete_at(indexPath.row)
+    Favourites.save(@favourites)
+    #App.delegate.delete_favourite(indexPath.row)
     tableView.reloadData
   end
 
