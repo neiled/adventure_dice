@@ -1,5 +1,6 @@
 class DiceBagController < UIViewController
     include BW::KVO
+    include EnableRollResults
 
   BAG_LEFT = 250
   BAG_HEIGHT = 30
@@ -54,7 +55,7 @@ class DiceBagController < UIViewController
     @roll_button.sizeToFit
     @roll_button.frame = [[250,400], [BUTTON_WIDTH, @roll_button.frame.size.height]]
     @roll_button.autoresizingMask =UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin
-    @roll_button.addTarget(self, action:"roll_dice",
+    @roll_button.addTarget(self, action:"roll_button_pressed",
       forControlEvents:UIControlEventTouchUpInside)
     @roll_button.setEnabled(false)
     self.view.addSubview(@roll_button)
@@ -135,27 +136,8 @@ class DiceBagController < UIViewController
     @roll_button.setEnabled(false) unless @selected_buttons.count > 0
   end
 
-  def roll_dice
-    @results_controller = DiceResultsController.alloc.initWithDice(@selected_dice.values)
-    bar_button_close = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemDone, target: self, action:"close")
-    bar_button_save = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemSave, target: self, action:"add_favorite")    
-    @results_controller.navigationItem.rightBarButtonItem = bar_button_close
-    @results_controller.navigationItem.leftBarButtonItem = bar_button_save
-    self.presentViewController(
-      UINavigationController.alloc.initWithRootViewController(@results_controller),
-      animated:true,
-      completion: lambda {})
-  end
-
-  def close
-    @results_controller.dismissModalViewControllerAnimated(true)
-  end
-  
-  def add_favorite
-    current_favourites = Favourite.load
-    current_favourites << Favourite.new({:dice => @selected_dice.values})
-    Favourite.save
-    # App.delegate.add_favourite @selected_dice.values
+  def roll_dice_button_pressed
+    roll_dice @selected_dice.values
   end
 
   def set_scroll_content_size
