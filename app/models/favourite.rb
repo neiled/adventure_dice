@@ -25,5 +25,16 @@ class Favourite
     PROPERTIES.each { |prop|
       encoder.encodeObject(self.send(prop), forKey: prop.to_s)
     }
+  end
+  
+  def self.save(favourites)
+    App::Persistence['favourites'] = NSKeyedArchiver.archivedDataWithRootObject(favourites)
+  end
+
+  def self.load
+    data = App::Persistence['favourites']
+    # protect against nil case
+    data ? NSKeyedUnarchiver.unarchiveObjectWithData(data) : []
   end  
+  
 end
