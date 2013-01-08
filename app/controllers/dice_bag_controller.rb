@@ -152,7 +152,10 @@ class DiceBagController < UIViewController
   end
   
   def add_favorite
-    App.delegate.add_favourite @selected_dice.values
+    current_favourites = Favourite.load
+    current_favourites << Favourite.new(@selected_dice.values)
+    Favourite.save
+    # App.delegate.add_favourite @selected_dice.values
   end
 
   def set_scroll_content_size
