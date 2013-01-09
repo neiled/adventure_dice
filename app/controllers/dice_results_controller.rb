@@ -39,6 +39,7 @@ class DiceResultsController < UIViewController
   def viewDidDisappear(animated)
     super
     resignFirstResponder
+    unobserve_all
   end
 
   def canBecomeFirstResponder
@@ -52,8 +53,7 @@ class DiceResultsController < UIViewController
   
   def reroll_dice
     @results.each{|d| d.roll }
-    UIView.animateWithDuration(1.0, delay:0.0, options:UIViewAnimationOptionAutoreverse,
-        animations:-> { view.backgroundColor = UIColor.yellowColor })
+    UIView.animateWithDuration(1.0, delay:0.0, options:UIViewAnimationOptionAutoreverse, animations:-> { view.backgroundColor = UIColor.yellowColor }, completion:-> finished { view.backgroundColor = UIColor.whiteColor})
   end  
 
  
@@ -71,5 +71,6 @@ class DiceResultsController < UIViewController
     observe(dice, :result) do |old_value, new_value|
       label.text = dice.to_s + " = " + new_value.to_s
     end
+
   end
 end

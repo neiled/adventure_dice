@@ -28,12 +28,12 @@ class Favourite
   end
   
   def self.save(favourites)
-    App::Persistence['favourites'] = NSKeyedArchiver.archivedDataWithRootObject(favourites)
+    NSUserDefaults.standardUserDefaults['favourites'] = NSKeyedArchiver.archivedDataWithRootObject(favourites)
   end
 
   def self.load
-    data = App::Persistence['favourites']
-    # protect against nil case
+    defaults = NSUserDefaults.standardUserDefaults
+    data = defaults['favourites']
     data ? NSKeyedUnarchiver.unarchiveObjectWithData(data) : []
   end  
   

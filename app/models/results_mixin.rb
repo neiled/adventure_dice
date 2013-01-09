@@ -21,7 +21,7 @@ module EnableRollResults
   def add_favorite
     current_favourites = Favourite.load
     current_favourites << Favourite.new({:dice => @dice_being_rolled})
-    Favourite.save
+    Favourite.save(current_favourites)
   end
 
 end

@@ -136,7 +136,7 @@ class DiceBagController < UIViewController
     @roll_button.setEnabled(false) unless @selected_buttons.count > 0
   end
 
-  def roll_dice_button_pressed
+  def roll_button_pressed
     roll_dice @selected_dice.values
   end
 

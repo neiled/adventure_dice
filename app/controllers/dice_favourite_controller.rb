@@ -20,7 +20,8 @@ class DiceFavouriteController < UITableViewController
 
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
     UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:nil).tap do |cell|
-      cell.textLabel.text = @favourites[indexPath.row].dice.join(" ")
+      favourites = @favourites[indexPath.row]
+      cell.textLabel.text = favourites.dice.join(" ")
     end
   end
 
@@ -30,13 +31,12 @@ class DiceFavouriteController < UITableViewController
 
   def tableView(tableView, commitEditingStyle:editingStyle, forRowAtIndexPath:indexPath)
     @favourites.delete_at(indexPath.row)
-    Favourites.save(@favourites)
+    Favourite.save(@favourites)
     #App.delegate.delete_favourite(indexPath.row)
     tableView.reloadData
   end
   
-  def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    tableView.deselectRowAtIndexPath(indexPath, animated: true)
+  def tableView(tableView, didSelectRowAtIndexPath:indexPath) tableView.deselectRowAtIndexPath(indexPath, animated: true)
     favourite = @favourites[indexPath.row]
     roll_dice(favourite.dice, false)
   end

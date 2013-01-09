@@ -9,7 +9,8 @@ class Dice
     attributes.each { |key, value|
       self.send("#{key}=", value) if PROPERTIES.member? key
     }
-    modifier = 0 unless modifier
+    self.modifier = 0 unless modifier
+    self.sides = 6 unless sides
     roll
     self
   end
