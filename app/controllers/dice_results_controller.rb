@@ -53,7 +53,7 @@ class DiceResultsController < UIViewController
   
   def reroll_dice
     @results.each{|d| d.roll }
-    UIView.animateWithDuration(1.0, delay:0.0, options:UIViewAnimationOptionAutoreverse, animations:-> { view.backgroundColor = UIColor.yellowColor }, completion:-> finished { view.backgroundColor = UIColor.whiteColor})
+    UIView.animateWithDuration(0.5, delay:0.0, options:UIViewAnimationOptionAutoreverse, animations:-> { view.backgroundColor = UIColor.yellowColor }, completion:-> finished { view.backgroundColor = UIColor.whiteColor})
   end  
 
  
@@ -61,10 +61,11 @@ class DiceResultsController < UIViewController
     label = UILabel.alloc.initWithFrame(CGRectZero)
     label.text = dice.to_s + " = " + dice.result.to_s
     label.font = UIFont.systemFontOfSize(20)
+    label.backgroundColor = UIColor.clearColor
     label.sizeToFit
     label.frame =
       [[20,
-      label.frame.size.height + 50 * index], [130, label.frame.size.height]]
+      label.frame.size.height + 50 * index], [230, label.frame.size.height]]
     label.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin
     self.view.addSubview(label)
 

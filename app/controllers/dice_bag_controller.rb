@@ -125,12 +125,15 @@ class DiceBagController < UIViewController
     @selected_dice.delete(sender)
     @selected_buttons.delete(sender)
     
-    @selected_buttons.each_with_index do |button, index|
-      button.frame = [
-        [0, BUTTON_HEIGHT * index + 20],
-        [button.frame.size.width, button.frame.size.height]
-      ]
-    end
+    UIView.animateWithDuration(0.5, animations:-> {
+      @selected_buttons.each_with_index do |button, index|
+        button.frame = [
+          [0, BUTTON_HEIGHT * index + 20],
+          [button.frame.size.width, button.frame.size.height]
+        ]
+      end
+    })
+
 
     set_scroll_content_size
     @roll_button.setEnabled(false) unless @selected_buttons.count > 0
