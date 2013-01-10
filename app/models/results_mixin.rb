@@ -22,6 +22,16 @@ module EnableRollResults
     current_favourites = Favourite.load
     current_favourites << Favourite.new({:dice => @dice_being_rolled})
     Favourite.save(current_favourites)
+
+    hud = MBProgressHUD.showHUDAddedTo(@results_controller.view, animated: true)
+    hud.mode = MBProgressHUDModeText
+    hud.labelText = "Saved!"
+    hud.removeFromSuperViewOnHide = true
+    hud.hide(true, afterDelay: 3)
+
+
+    @results_controller.navigationItem.leftBarButtonItem.enabled = false
+
   end
 
 end

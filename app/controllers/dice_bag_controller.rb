@@ -5,7 +5,7 @@ class DiceBagController < UIViewController
   BAG_LEFT = 250
   BAG_HEIGHT = 30
   BUTTON_WIDTH=65
-  BUTTON_HEIGHT = 44
+  BUTTON_HEIGHT = 54
 
   def initWithNibName(name, bundle: bundle)
     super
@@ -17,7 +17,7 @@ class DiceBagController < UIViewController
   end
 
   def viewDidLoad
-    image = UIImage.imageNamed("pool_table2")
+    image = UIImage.imageNamed("retina_wood")
     self.view.backgroundColor = UIColor.colorWithPatternImage(image)
 
     add_modifier_bar
@@ -28,17 +28,40 @@ class DiceBagController < UIViewController
 
     create_roll_button
     add_bag_view
+
+    add_constraints
   end
 
   def add_modifier_bar
-    @slider = UISlider.alloc.init
-    self.view.addSubview(@slider)
-    @slider.frame = [[20,370],[200, @slider.frame.size.height]]
+
+    @slider = UISlider.alloc.initWithFrame([[20,370],[200, 50]])
+    #@slider.frame = [[20,370],[200, @slider.frame.size.height]]
+    @slider.translatesAutoresizingMaskIntoConstraints = false
     @slider.minimumValue = -10
     @slider.maximumValue = 10
     @slider.value = 0
     @slider.addTarget(self, action:"update_button_labels:",
       forControlEvents:UIControlEventValueChanged)
+    self.view.addSubview(@slider)
+  end
+
+  def add_constraints
+    views_dict = { "modifier_bar" => @slider, "roll_button" => @roll_button}
+    self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(
+        "V:[modifier_bar]-|",
+        options: 0,
+        metrics: nil,
+        views: views_dict))
+    self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(
+        "H:|-[modifier_bar(>=200)]-[roll_button(65)]-8-|", 
+        options: 0,
+        metrics: nil,
+        views: views_dict))
+    self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(
+        "V:[roll_button]-|",
+        options: 0,
+        metrics: nil,
+        views: views_dict))
   end
   
   def add_bag_view
@@ -54,10 +77,13 @@ class DiceBagController < UIViewController
     @roll_button.setTitle("Roll", forState:UIControlStateNormal)
     @roll_button.sizeToFit
     @roll_button.frame = [[250,400], [BUTTON_WIDTH, @roll_button.frame.size.height]]
-    @roll_button.autoresizingMask =UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin
     @roll_button.addTarget(self, action:"roll_button_pressed",
       forControlEvents:UIControlEventTouchUpInside)
     @roll_button.setEnabled(false)
+    @roll_button.translatesAutoresizingMaskIntoConstraints = false
+    button_image = UIImage.imageNamed("greenButton", resizableImageWithCapInsets: [18,18,18,18])
+    @roll_button.setBackgroundImage(button_image, forState: UIControlStateNormal)
+    @roll_button.backgroundColor = UIColor.clearColor
     self.view.addSubview(@roll_button)
   end
 
