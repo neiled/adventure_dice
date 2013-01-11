@@ -70,6 +70,14 @@ class DiceBagController < UIViewController
     @bag_view.contentSize.width = BUTTON_WIDTH
     @bag_view.canCancelContentTouches = true
     self.view.addSubview(@bag_view)
+    
+    l = CAGradientLayer.layer
+    l.frame = @bag_view.bounds;
+    l.colors = [UIColor.colorWithRed(0, green:0, blue:0, alpha:0).CGColor, UIColor.colorWithRed(0, green:0, blue:0, alpha:1).CGColor, nil]
+    l.startPoint = [0, 0]
+    l.endPoint = [1,1];
+
+    @bag_view.layer.mask = l;     
   end
 
   def create_roll_button
