@@ -11,10 +11,12 @@ class SettingsController < Formotion::FormController
           title: "Shake to Re-Roll",
           type: :swtich,
           key: :shake,
+          value: true
         }, {
           title: "Animate Results",
           type: :switch,
           key: :animate,
+          value: false
         }]
       }, {
         title: "Help",
