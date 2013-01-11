@@ -48,7 +48,9 @@ class DiceResultsController < UIViewController
 
   def motionEnded(motion, withEvent:event)
     @shaking = motion == UIEventSubtypeMotionShake
-    reroll_dice
+    if settings = App::Persistence['settings']['shake']
+      reroll_dice
+    end
   end
   
   def reroll_dice
