@@ -9,7 +9,7 @@ class DiceBagController < UIViewController
 
   def initWithNibName(name, bundle: bundle)
     super
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Dice Bag", image: nil, tag: 1)
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Dice Bag", image: UIImage.imageNamed("130-dice"), tag: 1)
     @selected_dice = {}
     @selected_buttons = []
     @buttons = []
