@@ -9,7 +9,7 @@ class SettingsController < Formotion::FormController
         title: "Settings",
         rows: [{
           title: "Shake to Re-Roll",
-          type: :swtich,
+          type: :switch,
           key: :shake,
           value: true
         }, {
@@ -22,14 +22,18 @@ class SettingsController < Formotion::FormController
         title: "Help",
         rows: [{
           title: "Give Feedback",
-          type: "submit"]
+          type: "submit"}]
+        }]
     }
   
-  def initWithNibName(name, bundle: bundle)
-    super
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Settings", image: UIImage.imageNamed("20-gear-2"), tag: 3)
+  def initController
     f = Formotion::Form.persist(SETTINGS_HASH)
     initWithForm(f)    
+  end
+
+  def viewDidLoad
+    super
+    #self.navigationController.tabBarItem = UITabBarItem.alloc.initWithTitle("Settings", image: UIImage.imageNamed("20-gear-2"), tag: 3)
   end
   
   def submit

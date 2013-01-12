@@ -69,15 +69,24 @@ class DiceBagController < UIViewController
     @bag_view.frame = [[BAG_LEFT, 0], [self.view.frame.size.width - BAG_LEFT, self.view.frame.size.height-130]]
     @bag_view.contentSize.width = BUTTON_WIDTH
     @bag_view.canCancelContentTouches = true
+    @bag_view.delegate = self
     self.view.addSubview(@bag_view)
-    
-    l = CAGradientLayer.layer
-    l.frame = @bag_view.bounds;
-    l.colors = [UIColor.colorWithRed(0, green:0, blue:0, alpha:0).CGColor, UIColor.colorWithRed(0, green:0, blue:0, alpha:1).CGColor, nil]
-    l.startPoint = [0, 0]
-    l.endPoint = [1,1];
 
-    @bag_view.layer.mask = l;     
+    @l = CAGradientLayer.layer
+    @l.bounds = @bag_view.bounds
+    @l.locations = [0.9, 1.0]
+    @l.colors = [UIColor.whiteColor.CGColor, UIColor.clearColor.CGColor]
+    #@l.startPoint = [0,0]
+    #@l.endPoint = [0,1]
+    @l.anchorPoint = [0,0]
+    @bag_view.layer.mask = @l
+  end
+
+  def scrollViewDidScroll(sender)
+    CATransaction.begin
+    CATransaction.setDisableActions true
+    @l.position = [0, @bag_view.contentOffset.y]
+    CATransaction.commit
   end
 
   def create_roll_button
