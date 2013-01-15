@@ -12,13 +12,13 @@ class DiceResultsController < UIViewController
     self.title = "Roll Results"
     self.view.backgroundColor = UIColor.whiteColor
     @results.each_with_index{|d, index|
-      add_label d, index
+      add_label d, index, @results.count
     }
 
     reroll_button = subview(
       UIButton.buttonWithType(UIButtonTypeRoundedRect),
       title: "Re-roll",
-      top: 300, left: 90, width: 150, height: 50
+      top: 350, left: 90, width: 150, height: 50
     )
     reroll_button.addTarget(self,
                             action:"reroll_dice", forControlEvents:UIControlEventTouchUpInside)
@@ -48,9 +48,7 @@ class DiceResultsController < UIViewController
 
   def motionEnded(motion, withEvent:event)
     @shaking = motion == UIEventSubtypeMotionShake
-    if settings = App::Persistence['settings']['shake']
-      reroll_dice
-    end
+    reroll_dice
   end
   
   def reroll_dice
@@ -65,16 +63,17 @@ class DiceResultsController < UIViewController
   end  
 
  
-  def add_label(dice, index)
+  def add_label(dice, index, total)
+    height = (App.frame.size.height - 120) / total
     label = UILabel.alloc.initWithFrame(CGRectZero)
     label.text = dice.to_s + " = " + dice.result.to_s
-    label.font = UIFont.systemFontOfSize(20)
+    points_per_pixel = label.font.pointSize / label.text.sizeWithFont(label.font).height 
+    label.font = UIFont.systemFontOfSize(height*points_per_pixel)
     label.backgroundColor = UIColor.clearColor
-    label.sizeToFit
     label.frame =
-      [[20,
-      label.frame.size.height + 50 * index], [230, label.frame.size.height]]
-    label.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin
+      [[0,
+      height * index], [App.frame.size.width, height]]
+    label.adjustsFontSizeToFitWidth = true
     self.view.addSubview(label)
 
     observe(dice, :result) do |old_value, new_value|

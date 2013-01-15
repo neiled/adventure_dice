@@ -3,7 +3,7 @@ class SettingsController < Formotion::FormController
   PERSIST_AS = :settings
   
   SETTINGS_HASH = {
-      title: "Adventure Dice",
+      title: "Settings",
       persist_as: PERSIST_AS,
       sections: [{
         title: "Settings",
@@ -26,9 +26,12 @@ class SettingsController < Formotion::FormController
         }]
     }
   
-  def initController
+  def init
     f = Formotion::Form.persist(SETTINGS_HASH)
-    initWithForm(f)    
+    f.on_submit do
+      self.feedback
+    end
+    super.initWithForm(f)    
   end
 
   def viewDidLoad
@@ -36,7 +39,7 @@ class SettingsController < Formotion::FormController
     #self.navigationController.tabBarItem = UITabBarItem.alloc.initWithTitle("Settings", image: UIImage.imageNamed("20-gear-2"), tag: 3)
   end
   
-  def submit
+  def feedback
     TestFlight.openFeedbackView
   end
   
