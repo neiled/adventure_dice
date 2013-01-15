@@ -53,10 +53,14 @@ class DiceResultsController < UIViewController
   end
   
   def reroll_dice
-    @results.each{|d| d.roll }
     UIView.animateWithDuration(0.5, animations:-> {
       view.backgroundColor = UIColor.yellowColor
     }, completion:-> finished {
+      timer = EM.add_periodic_timer 0.25 do
+        count = count + 1
+        @results.each{|d| d.roll }
+        (count < 20) || EM.cancel_timer(timer)
+      end
       UIView.animateWithDuration(0.5, animations:-> {
         view.backgroundColor = UIColor.whiteColor
       }, completion:-> finished_again {})
