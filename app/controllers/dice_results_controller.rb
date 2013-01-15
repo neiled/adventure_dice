@@ -94,7 +94,7 @@ class DiceResultsController < UIViewController
     #button.sizeToFit
     #button.tag = sides
     button.frame = [
-      [initial_gap + (index%max_per_row)*(BUTTON_WIDTH + button_gap), (index/max_per_row) * (button.frame.size.height + button_gap) + initial_gap],
+      [initial_gap + (index%max_per_row)*(BUTTON_WIDTH + button_gap), (index/max_per_row) * (BUTTON_HEIGHT + button_gap) + initial_gap],
       [BUTTON_WIDTH, BUTTON_HEIGHT]
     ]
     #button.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin
