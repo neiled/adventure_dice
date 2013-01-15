@@ -64,23 +64,13 @@ class DiceResultsController < UIViewController
   end  
 
  
-  def add_label(dice, index, total)
-    height = (App.frame.size.height - 120) / total
+  def add_label(dice, left, top)
     label = UILabel.alloc.initWithFrame(CGRectZero)
-    label.text = dice.to_s + " = " + dice.result.to_s
-    points_per_pixel = label.font.pointSize / label.text.sizeWithFont(label.font).height 
-    label.font = UIFont.systemFontOfSize(height*points_per_pixel)
+    label.text = dice.to_s
+    label.font = UIFont.systemFontOfSize(8)
     label.backgroundColor = UIColor.clearColor
-    label.frame =
-      [[0,
-      height * index], [App.frame.size.width, height]]
-    label.adjustsFontSizeToFitWidth = true
+    label.frame = [[left, top], [30, 20]]
     self.view.addSubview(label)
-
-    observe(dice, :result) do |old_value, new_value|
-      label.text = dice.to_s + " = " + new_value.to_s
-    end
-
   end
   
   BUTTON_WIDTH=65
@@ -106,6 +96,10 @@ class DiceResultsController < UIViewController
     #button.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin
     #button.addTarget(self, action:"button_tapped:", forControlEvents:UIControlEventTouchUpInside)
 
+    observe(dice, :result) do |old_value, new_value|
+      button.title = dice.result.to_s
+    end
+    add_label(dice, button.frame.bounds.left, button.frame.bounds.top)
     self.view.addSubview(button)
     @buttons[button] = dice
   end
