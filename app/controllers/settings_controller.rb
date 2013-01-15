@@ -16,6 +16,11 @@ class SettingsController < Formotion::FormController
           title: "Animate Results",
           type: :switch,
           key: :animate,
+          value: true
+        }, {
+          title: "Show Totals",
+          type: :switch,
+          key: :animate,
           value: false
         }]
       }, {
@@ -44,3 +49,4 @@ class SettingsController < Formotion::FormController
   end
   
 end
+
