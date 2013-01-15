@@ -12,7 +12,8 @@ class DiceResultsController < UIViewController
     self.title = "Roll Results"
     self.view.backgroundColor = UIColor.whiteColor
     @results.each_with_index{|d, index|
-      add_label d, index, @results.count
+      #add_label d, index, @results.count
+      create_button d, index
     }
 
     reroll_button = subview(
@@ -81,4 +82,33 @@ class DiceResultsController < UIViewController
     end
 
   end
+  
+  BUTTON_WIDTH=65
+  BUTTON_HEIGHT = 54
+
+  def create_button(dice, index)
+    #button_image = UIImage.imageNamed("orangeButton", resizableImageWithCapInsets: [18,18,18,18])
+    button_gap = 15
+    max_per_row = 3
+    initial_gap = 15
+    button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
+    #button.setBackgroundImage(button_image, forState: UIControlStateNormal)
+    #button.backgroundColor = UIColor.clearColor
+    label = dice.result.to_s
+    button.setTitle(label, forState:UIControlStateNormal)
+    #button.setTitleColor(UIColor.whiteColor, forState:UIControlStateNormal)
+    #button.sizeToFit
+    #button.tag = sides
+    button.frame = [
+      [initial_gap + (index%max_per_row)*(BUTTON_WIDTH + button_gap), (index/max_per_row) * (button.frame.size.height + button_gap) + initial_gap],
+      [BUTTON_WIDTH, BUTTON_HEIGHT]
+    ]
+    #button.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin
+    #button.addTarget(self, action:"button_tapped:", forControlEvents:UIControlEventTouchUpInside)
+
+    self.view.addSubview(button)
+    @buttons[button] = dice
+  end
+
 end
+
