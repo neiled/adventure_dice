@@ -77,14 +77,14 @@ class DiceResultsController < UIViewController
     self.view.addSubview(label)
   end
   
-  BUTTON_WIDTH=65
-  BUTTON_HEIGHT = 54
+  BUTTON_WIDTH=50
+  BUTTON_HEIGHT = 50
 
   def create_button(dice, index)
     #button_image = UIImage.imageNamed("orangeButton", resizableImageWithCapInsets: [18,18,18,18])
-    button_gap = 15
+    button_gap = 10
     max_per_row = 3
-    initial_gap = 15
+    initial_gap = 10
     button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
     #button.setBackgroundImage(button_image, forState: UIControlStateNormal)
     #button.backgroundColor = UIColor.clearColor
