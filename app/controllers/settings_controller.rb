@@ -20,7 +20,7 @@ class SettingsController < Formotion::FormController
         }, {
           title: "Show Totals",
           type: :switch,
-          key: :animate,
+          key: :totals,
           value: false
         }]
       }, {

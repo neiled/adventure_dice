@@ -1,9 +1,14 @@
 class DiceResultsController < UIViewController
     include BW::KVO
 
+  BUTTON_WIDTH=50
+  BUTTON_HEIGHT = 50
+
   def initWithDice(selected_dice)
     self.initWithNibName(nil, bundle:nil)
     @results = selected_dice
+
+    @buttons = {}
 
     self
   end
@@ -56,10 +61,11 @@ class DiceResultsController < UIViewController
     UIView.animateWithDuration(0.5, animations:-> {
       view.backgroundColor = UIColor.yellowColor
     }, completion:-> finished {
-      timer = EM.add_periodic_timer 0.25 do
+      count = 0
+      timer = BubbleWrap::Reactor.add_periodic_timer 0.05 do
         count = count + 1
         @results.each{|d| d.roll }
-        (count < 20) || EM.cancel_timer(timer)
+        (count < 30) || EM.cancel_timer(timer)
       end
       UIView.animateWithDuration(0.5, animations:-> {
         view.backgroundColor = UIColor.whiteColor
@@ -71,20 +77,19 @@ class DiceResultsController < UIViewController
   def add_label(dice, left, top)
     label = UILabel.alloc.initWithFrame(CGRectZero)
     label.text = dice.to_s
-    label.font = UIFont.systemFontOfSize(8)
+    label.font = UIFont.systemFontOfSize(10)
     label.backgroundColor = UIColor.clearColor
-    label.frame = [[left, top], [30, 20]]
+    label.frame = [[left, top], [BUTTON_WIDTH, 15]]
+    label.textAlignment = UITextAlignmentCenter
     self.view.addSubview(label)
   end
   
-  BUTTON_WIDTH=50
-  BUTTON_HEIGHT = 50
 
   def create_button(dice, index)
     #button_image = UIImage.imageNamed("orangeButton", resizableImageWithCapInsets: [18,18,18,18])
-    button_gap = 10
-    max_per_row = 3
-    initial_gap = 10
+    button_gap = 25
+    max_per_row = 4
+    initial_gap = 25
     button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
     #button.setBackgroundImage(button_image, forState: UIControlStateNormal)
     #button.backgroundColor = UIColor.clearColor
@@ -101,9 +106,9 @@ class DiceResultsController < UIViewController
     #button.addTarget(self, action:"button_tapped:", forControlEvents:UIControlEventTouchUpInside)
 
     observe(dice, :result) do |old_value, new_value|
-      button.title = dice.result.to_s
+      button.setTitle dice.result.to_s, forState:UIControlStateNormal
     end
-    add_label(dice, button.frame.bounds.left, button.frame.bounds.top)
+    add_label(dice, button.frame.origin.x, button.frame.origin.y + BUTTON_HEIGHT)
     self.view.addSubview(button)
     @buttons[button] = dice
   end
