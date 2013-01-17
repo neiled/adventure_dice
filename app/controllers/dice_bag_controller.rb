@@ -5,7 +5,7 @@ class DiceBagController < UIViewController
   BAG_LEFT = 250
   BAG_HEIGHT = 30
   BUTTON_WIDTH=65
-  BUTTON_HEIGHT = 54
+  BUTTON_HEIGHT = 50
 
   def initWithNibName(name, bundle: bundle)
     super
