@@ -139,8 +139,10 @@ class DiceBagController < UIViewController
   end
 
   def button_tapped(sender)
-    new_dice = Dice.new({sides: sender.tag, modifier: @slider.value.round})
-    update_bag(new_dice)
+    unless @buttons.count == 20 then
+        new_dice = Dice.new({sides: sender.tag, modifier: @slider.value.round})
+        update_bag(new_dice)
+    end
   end
   
   def update_bag(new_dice)
