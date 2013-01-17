@@ -71,7 +71,7 @@ class DiceResultsController < UIViewController
   def add_label(dice, left, top)
     label = UILabel.alloc.initWithFrame(CGRectZero)
     label.text = dice.to_s
-    label.font = UIFont.systemFontOfSize(8)
+    label.font = UIFont.systemFontOfSize(12)
     label.backgroundColor = UIColor.clearColor
     label.frame = [[left, top], [30, 20]]
     self.view.addSubview(label)
