@@ -128,7 +128,7 @@ class DiceBagController < UIViewController
 
   def create_button(sides, index)
     button_image = UIImage.imageNamed("orangeButton", resizableImageWithCapInsets: [18,18,18,18])
-    button_gap_v = 10
+    button_gap_v = Device.retina? ? 20 : 10
     max_per_row = 3
     initial_gap = 15
     button_gap_h = 20

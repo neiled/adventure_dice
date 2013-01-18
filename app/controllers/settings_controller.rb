@@ -6,7 +6,7 @@ class SettingsController < Formotion::FormController
       title: "Settings",
       persist_as: PERSIST_AS,
       sections: [{
-        title: "Settings",
+        title: "Options",
         rows: [{
           title: "Shake to Re-Roll",
           type: :switch,
