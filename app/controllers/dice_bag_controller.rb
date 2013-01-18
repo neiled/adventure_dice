@@ -4,8 +4,8 @@ class DiceBagController < UIViewController
 
   BAG_LEFT = 250
   BAG_HEIGHT = 30
-  BUTTON_WIDTH=65
-  BUTTON_HEIGHT = 54
+  BUTTON_WIDTH=55
+  BUTTON_HEIGHT = 50
 
   def initWithNibName(name, bundle: bundle)
     super
@@ -35,25 +35,38 @@ class DiceBagController < UIViewController
   def add_modifier_bar
 
     @slider = UISlider.alloc.initWithFrame([[20,370],[200, 50]])
-    #@slider.frame = [[20,370],[200, @slider.frame.size.height]]
     @slider.translatesAutoresizingMaskIntoConstraints = false
     @slider.minimumValue = -10
     @slider.maximumValue = 10
     @slider.value = 0
     @slider.addTarget(self, action:"update_button_labels:",
       forControlEvents:UIControlEventValueChanged)
+
+    @modifier_label = UILabel.alloc.initWithFrame(CGRectZero)
+    @modifier_label.text = "Modfier:"
+    @modifier_label.font = UIFont.systemFontOfSize(12)
+    @modifier_label.backgroundColor = UIColor.clearColor
+    @modifier_label.frame = [[20, 350], [200, 25]]
+    @modifier_label.translatesAutoresizingMaskIntoConstraints = false
+    self.view.addSubview(@modifier_label)
+
     self.view.addSubview(@slider)
   end
 
   def add_constraints
-    views_dict = { "modifier_bar" => @slider, "roll_button" => @roll_button}
+    views_dict = { "modifier_bar" => @slider, "roll_button" => @roll_button, "modifier_label" => @modifier_label}
     self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(
-        "V:[modifier_bar]-|",
+        "V:[modifier_label]-[modifier_bar]-|",
         options: 0,
         metrics: nil,
         views: views_dict))
     self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(
         "H:|-[modifier_bar(>=200)]-[roll_button(65)]-8-|", 
+        options: 0,
+        metrics: nil,
+        views: views_dict))
+    self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(
+        "H:|-[modifier_label]", 
         options: 0,
         metrics: nil,
         views: views_dict))
@@ -112,22 +125,23 @@ class DiceBagController < UIViewController
       button.setTitle(label, forState:UIControlStateNormal)
     }
   end
-  
+
   def create_button(sides, index)
     button_image = UIImage.imageNamed("orangeButton", resizableImageWithCapInsets: [18,18,18,18])
-    button_gap = 15
+    button_gap_v = 10
     max_per_row = 3
     initial_gap = 15
+    button_gap_h = 20
     button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
     button.setBackgroundImage(button_image, forState: UIControlStateNormal)
     button.backgroundColor = UIColor.clearColor
     label = "d"+sides.to_s
     button.setTitle(label, forState:UIControlStateNormal)
     button.setTitleColor(UIColor.whiteColor, forState:UIControlStateNormal)
-    button.sizeToFit
+    button.titleLabel.font = UIFont.systemFontOfSize(12)
     button.tag = sides
     button.frame = [
-      [initial_gap + (index%max_per_row)*(BUTTON_WIDTH + button_gap), (index/max_per_row) * (button.frame.size.height + button_gap) + initial_gap],
+      [initial_gap + (index%max_per_row)*(BUTTON_WIDTH + button_gap_h), (index/max_per_row) * (BUTTON_HEIGHT + button_gap_v) + initial_gap],
       [BUTTON_WIDTH, BUTTON_HEIGHT]
     ]
     button.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin
@@ -139,8 +153,10 @@ class DiceBagController < UIViewController
   end
 
   def button_tapped(sender)
-    new_dice = Dice.new({sides: sender.tag, modifier: @slider.value.round})
-    update_bag(new_dice)
+    unless @selected_dice.size >= 16 then
+        new_dice = Dice.new({sides: sender.tag, modifier: @slider.value.round})
+        update_bag(new_dice)
+    end
   end
   
   def update_bag(new_dice)
