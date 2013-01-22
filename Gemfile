@@ -7,6 +7,7 @@ gem "motion-cocoapods"
 gem "teacup"
 gem "motion-support"
 gem "motion-resource"
+gem "motion-pixate"
 
 group :spec do
   gem "webstub"
