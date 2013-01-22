@@ -44,8 +44,8 @@ class DiceBagController < UIViewController
 
     @modifier_label = UILabel.alloc.initWithFrame(CGRectZero)
     @modifier_label.text = "Modfier:"
-    @modifier_label.font = UIFont.systemFontOfSize(12)
-    @modifier_label.backgroundColor = UIColor.clearColor
+    #@modifier_label.font = UIFont.systemFontOfSize(12)
+    #@modifier_label.backgroundColor = UIColor.clearColor
     @modifier_label.frame = [[20, 350], [200, 25]]
     @modifier_label.translatesAutoresizingMaskIntoConstraints = false
     self.view.addSubview(@modifier_label)
@@ -89,8 +89,6 @@ class DiceBagController < UIViewController
     @l.bounds = @bag_view.bounds
     @l.locations = [0.9, 1.0]
     @l.colors = [UIColor.whiteColor.CGColor, UIColor.clearColor.CGColor]
-    #@l.startPoint = [0,0]
-    #@l.endPoint = [0,1]
     @l.anchorPoint = [0,0]
     @bag_view.layer.mask = @l
   end
@@ -107,13 +105,12 @@ class DiceBagController < UIViewController
     @roll_button.setTitle("Roll", forState:UIControlStateNormal)
     @roll_button.sizeToFit
     @roll_button.frame = [[250,400], [BUTTON_WIDTH, @roll_button.frame.size.height]]
-    @roll_button.addTarget(self, action:"roll_button_pressed",
-      forControlEvents:UIControlEventTouchUpInside)
+    @roll_button.addTarget(self, action:"roll_button_pressed", forControlEvents:UIControlEventTouchUpInside)
     @roll_button.setEnabled(false)
     @roll_button.translatesAutoresizingMaskIntoConstraints = false
-    button_image = UIImage.imageNamed("greenButton", resizableImageWithCapInsets: [18,18,18,18])
-    @roll_button.setBackgroundImage(button_image, forState: UIControlStateNormal)
-    @roll_button.backgroundColor = UIColor.clearColor
+    #button_image = UIImage.imageNamed("greenButton", resizableImageWithCapInsets: [18,18,18,18])
+    #@roll_button.setBackgroundImage(button_image, forState: UIControlStateNormal)
+    #@roll_button.backgroundColor = UIColor.clearColor
     self.view.addSubview(@roll_button)
   end
 
@@ -127,18 +124,18 @@ class DiceBagController < UIViewController
   end
 
   def create_button(sides, index)
-    button_image = UIImage.imageNamed("orangeButton", resizableImageWithCapInsets: [18,18,18,18])
+    #button_image = UIImage.imageNamed("orangeButton", resizableImageWithCapInsets: [18,18,18,18])
     button_gap_v = Device.retina? ? 20 : 10
     max_per_row = 3
     initial_gap = 15
     button_gap_h = 20
     button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
-    button.setBackgroundImage(button_image, forState: UIControlStateNormal)
-    button.backgroundColor = UIColor.clearColor
+    #button.setBackgroundImage(button_image, forState: UIControlStateNormal)
+    #button.backgroundColor = UIColor.clearColor
     label = "d"+sides.to_s
     button.setTitle(label, forState:UIControlStateNormal)
-    button.setTitleColor(UIColor.whiteColor, forState:UIControlStateNormal)
-    button.titleLabel.font = UIFont.systemFontOfSize(12)
+    #button.setTitleColor(UIColor.whiteColor, forState:UIControlStateNormal)
+    #button.titleLabel.font = UIFont.systemFontOfSize(12)
     button.tag = sides
     button.frame = [
       [initial_gap + (index%max_per_row)*(BUTTON_WIDTH + button_gap_h), (index/max_per_row) * (BUTTON_HEIGHT + button_gap_v) + initial_gap],
@@ -168,9 +165,7 @@ class DiceBagController < UIViewController
       [BUTTON_WIDTH, BUTTON_HEIGHT]
     ]
     button.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin    
-    button.addTarget(self,
-      action:"remove_button:",
-      forControlEvents:UIControlEventTouchUpInside)
+    button.addTarget(self, action:"remove_button:", forControlEvents:UIControlEventTouchUpInside)
     @selected_dice[button] = new_dice
     @selected_buttons << button
 
