@@ -90,7 +90,7 @@ class DiceResultsController < UIViewController
     button.styleClass = "button result_button"
     label = dice.result.to_s
     button.setTitle(label, forState:UIControlStateNormal)
-    button.translatesAutoresizingMaskIntoConstraints = false
+    #button.translatesAutoresizingMaskIntoConstraints = false
     button.frame = [
       [initial_gap + (index%max_per_row)*(BUTTON_WIDTH + button_gap), (index/max_per_row) * (BUTTON_HEIGHT + button_gap) + initial_gap],
       [BUTTON_WIDTH, BUTTON_HEIGHT]
