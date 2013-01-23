@@ -1,7 +1,6 @@
-button {
+.button {
   border-radius   : 5px;
-  font-family     : "Helvetica";
-  font-size       : 13px;
+  font-size       : 12px;
   font-weight     : bold;
   color           : #ffffff;
   border-width    : 1px;
@@ -10,9 +9,13 @@ button {
                           0 1px 1px rgba(0,0,0,0.5);
 }
 
+#modifier_label{
+  font-size       : 12px;
+  background-color: none;
+}
+
 .dice_button {
   background-color: linear-gradient(#3c4145, #585e62);
-
 }
 
 .chosen_dice {
@@ -33,4 +36,10 @@ button {
 .reroll_button {
   background-color: linear-gradient(#3c4145, #585e62);
 
+}
+
+.result_label {
+  font-size: 12px;
+  background-color: none;
+  font-align: center;
 }
