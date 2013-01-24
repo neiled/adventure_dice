@@ -53,7 +53,9 @@ class DiceResultsController < UIViewController
 
   def motionEnded(motion, withEvent:event)
     @shaking = motion == UIEventSubtypeMotionShake
-    reroll_dice
+    if @shaking and Settings.new.setting(:shake)
+      reroll_dice
+    end
   end
   
   def reroll_dice
