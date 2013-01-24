@@ -57,17 +57,21 @@ class DiceResultsController < UIViewController
   end
   
   def reroll_dice
-    UIView.animateWithDuration(0.5, animations:-> {
-    }, completion:-> finished {
-      count = 0
-      timer = BubbleWrap::Reactor.add_periodic_timer 0.05 do
-        count = count + 1
-        @results.each{|d| d.roll }
-        (count < 30) || EM.cancel_timer(timer)
-      end
+    if Settings.new.setting(:animate)
       UIView.animateWithDuration(0.5, animations:-> {
-      }, completion:-> finished_again {})
-    })
+      }, completion:-> finished {
+        count = 0
+        timer = BubbleWrap::Reactor.add_periodic_timer 0.05 do
+          count = count + 1
+          @results.each{|d| d.roll }
+          (count < 30) || EM.cancel_timer(timer)
+        end
+        UIView.animateWithDuration(0.5, animations:-> {
+        }, completion:-> finished_again {})
+      })
+    else
+      @results.each{|d| d.roll }
+    end
   end  
 
   def add_constraints
