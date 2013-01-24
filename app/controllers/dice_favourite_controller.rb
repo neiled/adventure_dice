@@ -4,8 +4,13 @@ class DiceFavouriteController < UITableViewController
   def initWithNibName(name, bundle: bundle)
     super
     self.tabBarItem = UITabBarItem.alloc.initWithTabBarSystemItem(UITabBarSystemItemFavorites, tag:2)
+    self.title = "Favorites"
 
     self
+  end
+
+  def viewDidLoad
+    tableView.styleClass = "results-table-view"
   end
 
   def viewWillAppear(animated)
@@ -22,6 +27,7 @@ class DiceFavouriteController < UITableViewController
     UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:nil).tap do |cell|
       favourites = @favourites[indexPath.row]
       cell.textLabel.text = favourites.dice.join(" ")
+      cell.textLabel.adjustsFontSizeToFitWidth = true
     end
   end
 

@@ -41,7 +41,7 @@ class SettingsController < Formotion::FormController
 
   def viewDidLoad
     super
-    #self.navigationController.tabBarItem = UITabBarItem.alloc.initWithTitle("Settings", image: UIImage.imageNamed("20-gear-2"), tag: 3)
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Settings", image: UIImage.imageNamed("20-gear-2"), tag: 3)
   end
   
   def feedback

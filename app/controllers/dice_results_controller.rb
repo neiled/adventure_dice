@@ -7,26 +7,26 @@ class DiceResultsController < UIViewController
   def initWithDice(selected_dice)
     self.initWithNibName(nil, bundle:nil)
     @results = selected_dice
-
     @buttons = {}
-
     self
   end
 
   def viewDidLoad
     self.title = "Roll Results"
-    self.view.backgroundColor = UIColor.whiteColor
+    self.view.styleId = "results_view"
     @results.each_with_index{|d, index|
       create_button d, index
     }
 
-    reroll_button = subview(
+    @reroll_button = subview(
       UIButton.buttonWithType(UIButtonTypeRoundedRect),
       title: "Re-roll",
       top: 350, left: 90, width: 150, height: 50
     )
-    reroll_button.addTarget(self, action:"reroll_dice", forControlEvents:UIControlEventTouchUpInside)
-    reroll_button.styleClass = "button reroll_button"
+    @reroll_button.addTarget(self, action:"reroll_dice", forControlEvents:UIControlEventTouchUpInside)
+    @reroll_button.styleClass = "button reroll_button"
+    @reroll_button.translatesAutoresizingMaskIntoConstraints = false
+    add_constraints
     reroll_dice
     true
   end
@@ -58,7 +58,6 @@ class DiceResultsController < UIViewController
   
   def reroll_dice
     UIView.animateWithDuration(0.5, animations:-> {
-      view.backgroundColor = UIColor.yellowColor
     }, completion:-> finished {
       count = 0
       timer = BubbleWrap::Reactor.add_periodic_timer 0.05 do
@@ -67,11 +66,23 @@ class DiceResultsController < UIViewController
         (count < 30) || EM.cancel_timer(timer)
       end
       UIView.animateWithDuration(0.5, animations:-> {
-        view.backgroundColor = UIColor.whiteColor
       }, completion:-> finished_again {})
     })
   end  
 
+  def add_constraints
+    views_dict = { "reroll_button" => @reroll_button}
+    self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(
+        "V:[reroll_button]-|",
+        options: 0,
+        metrics: nil,
+        views: views_dict))
+    self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(
+        "H:|-[reroll_button]-|", 
+        options: 0,
+        metrics: nil,
+        views: views_dict))
+  end
  
   def add_label(dice, left, top)
     label = UILabel.alloc.initWithFrame(CGRectZero)
@@ -90,12 +101,8 @@ class DiceResultsController < UIViewController
     button.styleClass = "button result_button"
     label = dice.result.to_s
     button.setTitle(label, forState:UIControlStateNormal)
-    #button.translatesAutoresizingMaskIntoConstraints = false
     button.frame = [
-      [initial_gap + (index%max_per_row)*(BUTTON_WIDTH + button_gap), (index/max_per_row) * (BUTTON_HEIGHT + button_gap) + initial_gap],
-      [BUTTON_WIDTH, BUTTON_HEIGHT]
-    ]
-
+      [initial_gap + (index%max_per_row)*(BUTTON_WIDTH + button_gap), (index/max_per_row) * (BUTTON_HEIGHT + button_gap) + initial_gap], [BUTTON_WIDTH, BUTTON_HEIGHT] ]
     observe(dice, :result) do |old_value, new_value|
       button.setTitle dice.result.to_s, forState:UIControlStateNormal
     end

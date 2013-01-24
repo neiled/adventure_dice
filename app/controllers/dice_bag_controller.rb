@@ -4,8 +4,8 @@ class DiceBagController < UIViewController
 
   BAG_LEFT = 250
   BAG_HEIGHT = 30
-  BAG_WIDTH = 65
-  BUTTON_WIDTH=55
+  BAG_WIDTH = 70
+  BUTTON_WIDTH=60
   BUTTON_HEIGHT = 50
 
   def initWithNibName(name, bundle: bundle)
@@ -18,8 +18,7 @@ class DiceBagController < UIViewController
   end
 
   def viewDidLoad
-    image = UIImage.imageNamed("retina_wood")
-    self.view.backgroundColor = UIColor.colorWithPatternImage(image)
+    self.view.styleId = "bag_view"
 
     add_modifier_bar
 
@@ -127,7 +126,7 @@ class DiceBagController < UIViewController
   end
 
   def create_button(sides, index)
-    button_gap_v = Device.retina? ? 20 : 5
+    button_gap_v = Device.screen.height >= 568 ? 20 : 5
     max_per_row = 3
     initial_gap = 15
     button_gap_h = 20

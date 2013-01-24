@@ -9,9 +9,20 @@
                           0 1px 1px rgba(0,0,0,0.5);
 }
 
+#bag_view {
+  background-color : linear-gradient(#292e31, #3a3f42);
+  /*background-color: linear-gradient(#3c4145, #585e62);*/
+}
+
+#results_view {
+  background-color : linear-gradient(#292e31, #3a3f42);
+  /*background-color: linear-gradient(#3c4145, #585e62);*/
+}
+
 #modifier_label{
   font-size       : 12px;
   background-color: none;
+  color: white;
 }
 
 .dice_button {
@@ -25,7 +36,7 @@
 
 .result_button {
   background-color: linear-gradient(#3c4145, #585e62);
-
+  font-size: 18px;
 }
 
 .roll_button {
@@ -38,8 +49,33 @@
 
 }
 
+.reroll_button_rolling {
+  background-color: linear-gradient(yellow, #585e62);
+}
+
 .result_label {
   font-size: 12px;
+  color: white;
   background-color: none;
   font-align: center;
+}
+
+bar-button-item {
+    background-color : #303132;
+}
+
+navigation-bar {
+    background-color : linear-gradient(rgb(39, 40, 41), rgb(74, 76, 78));
+}
+
+.results-table-view {
+    background-color : linear-gradient(rgb(39, 40, 41), rgb(74, 76, 78));
+}
+
+.results-table-view table-view-cell{
+    background-color : linear-gradient(rgb(39, 40, 41), rgb(74, 76, 78));
+}
+
+.results-table-view table-view-cell label{
+  color: white;
 }
