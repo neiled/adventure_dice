@@ -76,6 +76,10 @@ navigation-bar {
     background-color : linear-gradient(rgb(39, 40, 41), rgb(74, 76, 78));
 }
 
+.results-table-view table-view-cell:selected{
+    background-color : linear-gradient(rgb(39, 40, 41), rgb(74, 76, 78));
+}
+
 .results-table-view table-view-cell label{
   color: white;
 }
