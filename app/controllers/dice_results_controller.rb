@@ -112,9 +112,14 @@ class DiceResultsController < UIViewController
     observe(dice, :result) do |old_value, new_value|
       button.setTitle dice.result.to_s, forState:UIControlStateNormal
     end
+    button.addTarget(self, action:"reroll_one_dice:", forControlEvents:UIControlEventTouchUpInside)
     add_label(dice, button.frame.origin.x, button.frame.origin.y + BUTTON_HEIGHT)
     self.view.addSubview(button)
     @buttons[button] = dice
+  end
+
+  def reroll_one_dice(sender)
+    @buttons[sender].roll
   end
 
 end
