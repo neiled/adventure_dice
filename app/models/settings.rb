@@ -32,12 +32,10 @@ class Settings
     }
 
   def form
-    Formotion::Form.persist(SETTINGS_HASH)
+    @form ||= Formotion::Form.persist(SETTINGS_HASH)
   end
 
   def setting(setting_name)
-    form = Formotion::Form.new(SETTINGS_HASH)
-    form.open
     form.render[setting_name]
   end
 end
