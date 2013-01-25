@@ -17,11 +17,6 @@ class Settings
           type: :switch,
           key: :animate,
           value: true
-        }, {
-          title: "Show Totals",
-          type: :switch,
-          key: :totals,
-          value: false
         }]
       }, {
         title: "Help",
