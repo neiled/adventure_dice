@@ -73,8 +73,8 @@
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a href="#">Home</a></li>
-          <li><a href="#" onClick="_gaq.push(['_trackEvent', 'Buttons', 'About']);">About</a></li>
-          <li><a href="#" onClick="_gaq.push(['_trackEvent', 'Buttons', 'Contact']);">Contact</a></li>
+          <li><a href="#" onClick="_gaq.push(['_trackEvent', 'Buttons', 'About']);mixpanel.track('About Button');">About</a></li>
+          <li><a href="#" onClick="_gaq.push(['_trackEvent', 'Buttons', 'Contact']);mixpanel.track('Contact Button');">Contact</a></li>
         </ul>
         <h3 class="muted">Adventure Dice</h3>
       </div>
@@ -85,7 +85,7 @@
         <h1>Digitize your dice</h1>
         <p class="lead">Adventure Dice allows you to roll 18 different types of dice, set modifiers on them and even save your most used dice combinations to re-roll them at the touch of a button.</p>
         <p class="coming_soon">Coming soon: Combined with the iPad app all players can see all rolls that are made during the game (except for the secret DM rolls of course!)</p>
-        <a class="btn btn-large btn-success" href="#" onClick="_gaq.push(['_trackEvent', 'Buttons', 'Donwnload']);">Download today</a>
+        <a class="btn btn-large btn-success" href="#" onClick="_gaq.push(['_trackEvent', 'Buttons', 'Donwnload']);mixpanel.track('Donwload Button');">Download today</a>
       </div>
 
       <hr>
