@@ -68,8 +68,8 @@
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a href="#" onClick="_gaq.push(['_trackEvent', 'Buttons', 'About']);">About</a></li>
+          <li><a href="#" onClick="_gaq.push(['_trackEvent', 'Buttons', 'Contact']);">Contact</a></li>
         </ul>
         <h3 class="muted">Adventure Dice</h3>
       </div>
@@ -77,10 +77,10 @@
       <hr>
 
       <div class="jumbotron">
-        <h1>Bringing paper RPG gaming into the 21st Century</h1>
-        <p class="lead">Adventure Dice allows you to save your most used dice combinations to re-roll them at the touch of a finger.</p>
-        <p class="coming_soon">Combined with the iPad app all players can see all rolls that are made during the game (except for the secret DM rolls of course!)</p>
-        <a class="btn btn-large btn-success" href="#">Download today</a>
+        <h1>Digitize your dice</h1>
+        <p class="lead">Adventure Dice allows you to roll 18 different types of dice, set modifiers on them and even save your most used dice combinations to re-roll them at the touch of a button.</p>
+        <p class="coming_soon">Coming soon: Combined with the iPad app all players can see all rolls that are made during the game (except for the secret DM rolls of course!)</p>
+        <a class="btn btn-large btn-success" href="#" onClick="_gaq.push(['_trackEvent', 'Buttons', 'Donwnload']);">Download today</a>
       </div>
 
       <hr>
@@ -122,6 +122,9 @@
     <script type="text/javascript">
     
       var _gaq = _gaq || [];
+      var pluginUrl = 
+       '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+      _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
       _gaq.push(['_setAccount', 'UA-20083157-8']);
       _gaq.push(['_setDomainName', 'adventuredice.com']);
       _gaq.push(['_trackPageview']);
